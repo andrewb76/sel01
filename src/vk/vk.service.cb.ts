@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { Interval, Timeout } from '@nestjs/schedule';
+import { Timeout } from '@nestjs/schedule';
 import { VkUsersService } from './vk.user.cache';
 
 const VkBot = require('node-vk-bot-api');
