@@ -1,6 +1,5 @@
 import { Module, Logger} from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { VkModule } from './vk/vk.module';
 import { GptModule } from './gpt/gpt.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -11,10 +10,6 @@ import LokiTransport = require("winston-loki");
 import * as winston from 'winston';
 import { ConfigModule } from '@nestjs/config';
 import { config } from './app.config';
-import { VkService } from './vk/vk.service.cb';
-import { VkUsersService } from './vk/vk.user.cache';
-// import { VkService } from './vk/vk.service.cb';
-// import { VkUsersService } from './vk/vk.user.cache';
 
 @Module({
   imports: [
@@ -53,6 +48,6 @@ import { VkUsersService } from './vk/vk.user.cache';
     GptModule,
   ],
   controllers: [AppController],
-  providers: [VkService, VkUsersService],
+  providers: [],
 })
 export class AppModule {}
