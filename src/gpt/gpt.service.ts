@@ -45,7 +45,7 @@ export class GptService {
           this.eventEmitter.emit('vk.replay', {
             // to: taskForProcessing.owner,
             to: taskForProcessing.message.peer_id,
-            text: `🤖 Для [${taskForProcessing.user.first_name} ${taskForProcessing.user.last_name}], ${resp.response}`,
+            text: `🤖 Для [${taskForProcessing.user}], ${resp.response}`,
             // message: taskForProcessing.message,
           })
           this.metricsService.incrementRequestCounter('success');
@@ -106,6 +106,7 @@ export class GptService {
   @OnEvent('gpt.request')
   getHello1(payload: any): void {
     this.logger.log(`@OnEvent('gpt.request')::poolSize [${this.pool.length}] [${payload.request}] [${this.gptStatus}] [${this.hotDelay}]`)
+    // return
     this.pool.push({ ...payload,
       addedAt: new Date(),
     });
@@ -115,10 +116,5 @@ export class GptService {
     //   to: payload.owner,
     //   text: `Заказ в очереди`,
     // })
-  }
-  
-  @OnEvent('gpt.processing')
-  getHello2(payload: any): void {
-    //this.logger.log(`@OnEvent('gpt.processing')`);
   }
 }

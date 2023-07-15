@@ -62,7 +62,7 @@ export class VkService {
 
     @OnEvent('vk.replay')
     private async vkReply(payload: any): Promise<void> {
-        this.logger.log(`@OnEvent('vk.replay') [${payload.to}] [${payload.text}]`);
+        this.logger.log(`@OnEvent('vk.replay') +++ [${payload.to}] [${payload.text}]`);
         try {
             await this.bot.sendMessage(payload.to, payload.text);
         } catch (error) {

@@ -11,6 +11,8 @@ import LokiTransport = require("winston-loki");
 import * as winston from 'winston';
 import { ConfigModule } from '@nestjs/config';
 import { config } from './app.config';
+import { VkService } from './vk/vk.service.cb';
+import { VkUsersService } from './vk/vk.user.cache';
 
 @Module({
   imports: [
@@ -21,10 +23,10 @@ import { config } from './app.config';
     }),
     WinstonModule.forRoot({
       transports: [
-        // new LokiTransport({
-        //   host: "https://385021:eyJrIjoiOWE5OGM4MDk3YThlMjgwMWI2MzhjYWQ1MTYwYzA1NTgwZmNhZThkNCIsIm4iOiJ2a2dwdCIsImlkIjo3OTQxMDF9@logs-prod-017.grafana.net/loki/api/v1/push",
-        //   onConnectionError: err => { console.error('**&&**', err) },
-        // }),
+        new LokiTransport({
+          host: "https://385021:eyJrIjoiOWE5OGM4MDk3YThlMjgwMWI2MzhjYWQ1MTYwYzA1NTgwZmNhZThkNCIsIm4iOiJ2a2dwdCIsImlkIjo3OTQxMDF9@logs-prod-017.grafana.net/loki/api/v1/push",
+          onConnectionError: err => { console.error('**&&**', err) },
+        }),
         new winston.transports.Console({
           format: winston.format.combine(
             winston.format.timestamp(),
@@ -49,6 +51,6 @@ import { config } from './app.config';
     GptModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [VkService, VkUsersService],
 })
 export class AppModule {}
