@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { VkService } from './vk.service.cb';
 import { VkUsersService } from './vk.user.cache.service';
+import { VkService } from './vk.service.cb';
 import { VkController } from './vk.controller';
 
 @Module({
