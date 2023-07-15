@@ -15,7 +15,6 @@ export class GptService {
   private gptStatus = EGptStatus.ready;
   private hotDelay = 0;
   private pool: Array<IGptTask> = [];
-  private userSessions = new Map();
 
   constructor (
     private readonly eventEmitter: EventEmitter2,

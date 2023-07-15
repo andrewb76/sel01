@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { VkUsersService } from './vk.user.cache.service';
+import { VkUsersService } from './vk.service.user.cache';
 import { VkService } from './vk.service.cb';
 import { VkController } from './vk.controller';
 
