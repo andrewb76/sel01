@@ -53,7 +53,7 @@ export class GptService {
         }).catch(error => {
           this.metricsService.incrementRequestCounter('failed');
           this.metricsService.setRequestDelayHistogram('failed', differenceInMilliseconds(new Date(), taskForProcessing.addedAt));
-          this.logger.warn('[[ GPT error ]]', error);
+          this.logger.warn({ error, taskForProcessing }, '[[ GPT error ]]');
           if (error.status === 429) {
             this.pool.unshift(taskForProcessing),
             this.metricsService.setPoolSize(this.pool.length);

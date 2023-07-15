@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { VkService } from './vk.service.cb';
 import { formatDuration, intervalToDuration, fromUnixTime } from 'date-fns'
 
-@Controller('/bot')
+@Controller('bot')
 export class VkController {
   constructor(private readonly vkService: VkService) {
   }
