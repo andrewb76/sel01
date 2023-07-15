@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-// const api = require('../lib/vk/lib/api');
 const vkApi = require('node-vk-bot-api/lib/api');
 
 interface IVkUser {
