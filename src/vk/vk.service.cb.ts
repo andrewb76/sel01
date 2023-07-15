@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { Timeout } from '@nestjs/schedule';
-import { VkUsersService } from './vk.user.cache';
+import { VkUsersService } from './vk.user.cache.service';
 
 const VkBot = require('node-vk-bot-api');
 
@@ -74,6 +74,6 @@ export class VkService {
   
   @Timeout(3000)
   private start2() {
-      this.isReady = true;
+    this.isReady = true;
   }
 }
