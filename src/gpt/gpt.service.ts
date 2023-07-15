@@ -7,6 +7,7 @@ import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom, lastValueFrom, map } from 'rxjs';
 import { MetricsService } from '../metric.service';
 import { differenceInMilliseconds } from 'date-fns';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class GptService {
@@ -16,12 +17,11 @@ export class GptService {
   private pool: Array<IGptTask> = [];
   private userSessions = new Map();
 
-  private API_KEY = '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';
-
   constructor (
     private readonly eventEmitter: EventEmitter2,
     private readonly http: HttpService,
-    private readonly metricsService: MetricsService
+    private readonly metricsService: MetricsService,
+    private readonly config: ConfigService,
   ) {
 
   }
@@ -81,7 +81,7 @@ export class GptService {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.API_KEY}`,
+        Authorization: `Bearer ${this.config.get('gpt.apiKey')}`,
       },
     };
     return lastValueFrom(

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { VkService } from './vk.service';
+import { VkService } from './vk.service.cb';
 
 @Module({
   imports: [],
