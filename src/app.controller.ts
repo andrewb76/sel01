@@ -4,7 +4,10 @@ import { formatDuration, intervalToDuration, fromUnixTime } from 'date-fns'
 
 @Controller('/')
 export class AppController {
-  constructor(private readonly vkService: VkService) {}
+  private vkServ;
+  constructor(private readonly vkService: VkService) {
+    this.vkServ = vkService;
+  }
 
   @Post('/')
   @HttpCode(200)
@@ -26,7 +29,7 @@ export class AppController {
         })} - [${cb.object.message.conversation_message_id}] - [${cb.object.message.from_id}] - [${cb.object.message.text}]`
       );
     }
-    const resp = this.vkService.getBotCB(cb);
+    const resp = this.vkServ.getBotCB(cb);
     return resp;
   }
 }

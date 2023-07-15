@@ -13,6 +13,8 @@ import { ConfigModule } from '@nestjs/config';
 import { config } from './app.config';
 import { VkService } from './vk/vk.service.cb';
 import { VkUsersService } from './vk/vk.user.cache';
+// import { VkService } from './vk/vk.service.cb';
+// import { VkUsersService } from './vk/vk.user.cache';
 
 @Module({
   imports: [

@@ -3,7 +3,7 @@ import { VkService } from './vk.service.cb';
 import { VkUsersService } from './vk.user.cache';
 
 @Module({
-  imports: [],
+  // imports: [],
   providers: [VkService, VkUsersService]
 })
 export class VkModule {}
