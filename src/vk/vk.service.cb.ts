@@ -43,13 +43,11 @@ export class VkService {
       }
     });
     
-    this.logger.log('Starting polling ...');
-    this.bot.startPolling((err) => {
-      if (err) {
-        this.logger.error(err, 'Start polling Error');
-      }
-    });
-    // this.bot.on((ctx) => {
+    // this.logger.log('Starting polling ...');
+    // this.bot.startPolling((err) => {
+    //   if (err) {
+    //     this.logger.error(err, 'Start polling Error');
+    //   }
     // });
   }
 
