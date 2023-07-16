@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { Timeout } from '@nestjs/schedule';
 import { VkUsersService } from './vk.service.user';
+import { VkMessageService } from './vk.service.message';
 
 const VkBot = require('node-vk-bot-api');
 
@@ -16,6 +17,7 @@ export class VkService {
     private eventEmitter: EventEmitter2, 
     private config: ConfigService,
     private vkUsers: VkUsersService,
+    private vkMessage: VkMessageService,
   ) {
     this.bot = new VkBot({
       token: this.config.get('vk.vkToken'),
@@ -34,6 +36,20 @@ export class VkService {
       // ctx.scene.enter('meet');
     });
 
+    this.bot.use(async (ctx, next) => {
+      try {
+        next();
+      } catch (error) {
+        this.logger.error(error);
+      }
+    });
+    
+    this.logger.log('Starting polling ...');
+    this.bot.startPolling((err) => {
+      if (err) {
+        this.logger.error(err, 'Start polling Error');
+      }
+    });
     // this.bot.on((ctx) => {
     // });
   }
@@ -62,6 +78,8 @@ export class VkService {
     }
     // this.logger.log(message, 'VK_S:process message >>>');
     const user = await this.vkUsers.getUserStrById(message.from_id);
+    await this.vkMessage.getUserStrById(message.from_id);
+    
     // this.logger.log(user, 'VK_S:get user info >>>');
     const payload = {
       addedAt: new Date(),
