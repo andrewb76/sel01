@@ -70,7 +70,7 @@ export class VkService {
   private async processRequest(ctx) {
     const { message } = ctx;
     const age = getUnixTime(new Date()) - message.date;
-    this.logger.log({ message, age }, 'VkS::processRequest');
+    this.logger.log({ message: message.text, age }, 'VkS::processRequest');
     if (age > 30) { // Игнорируем старые запросы
       return;
     }
