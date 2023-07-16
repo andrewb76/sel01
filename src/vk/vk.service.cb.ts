@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { Timeout } from '@nestjs/schedule';
 import { VkUsersService } from './vk.service.user';
+import { getUnixTime } from 'date-fns';
 
 const VkBot = require('node-vk-bot-api');
 
@@ -70,8 +71,9 @@ export class VkService {
   
   private async processRequest(ctx) {
     const { message } = ctx;
-    this.logger.log(message, 'VkS::processRequest');
-    if (message.age_minutes) { // Игнорируем старые запросы
+    const age = getUnixTime(new Date()) - message.date;
+    this.logger.log({ message, age }, 'VkS::processRequest');
+    if (age > 30) { // Игнорируем старые запросы
       return;
     }
     // this.logger.log(message, 'VK_S:process message >>>');
