@@ -11,4 +11,9 @@ export const config = () => ({
   gpt: {
     apiKey: process.env.GPT_API_KEY,
   },
+  grafana: {
+    user: parseInt(process.env.GRAFANA_USER),
+    key: process.env.GRAFANA_API_KEY,
+    pod: process.env.GRAFANA_POD,
+  }
 });

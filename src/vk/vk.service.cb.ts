@@ -18,10 +18,10 @@ export class VkService {
     private vkUsers: VkUsersService,
   ) {
     this.bot = new VkBot({
-      token: config.get('vk.vkToken'),
-      group_id: config.get('vk.groupId'),
-      confirmation: config.get('vk.confirmationToken'),  
-      secret: config.get('vk.secret'), 
+      token: this.config.get('vk.vkToken'),
+      group_id: this.config.get('vk.groupId'),
+      confirmation: this.config.get('vk.confirmationToken'),  
+      secret: this.config.get('vk.secret'), 
     });
 
     // this.bot.command('start', (ctx) => {
@@ -50,13 +50,13 @@ export class VkService {
   }
 
   public getBotCB(cb: any) {
-    this.logger.verbose(cb, 'VkS::getBotCB start');
+    this.logger.log(cb, 'VkS::getBotCB start');
     return this.bot.webhookCallback(cb);
   }
   
   private async processRequest(ctx) {
     const { message } = ctx;
-    this.logger.verbose(message, 'VkS::processRequest');
+    this.logger.log(message, 'VkS::processRequest');
     if (message.age_minutes) { // Игнорируем старые запросы
       return;
     }

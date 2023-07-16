@@ -8,7 +8,7 @@ import { PrometheusModule } from "@willsoto/nestjs-prometheus";
 import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
 import LokiTransport = require("winston-loki");
 import * as winston from 'winston';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from './app.config';
 
 @Module({
@@ -18,23 +18,28 @@ import { config } from './app.config';
       load: [config],
       envFilePath: '.env'
     }),
-    WinstonModule.forRoot({
-      transports: [
-        new LokiTransport({
-          host: "https://385021:eyJrIjoiOWE5OGM4MDk3YThlMjgwMWI2MzhjYWQ1MTYwYzA1NTgwZmNhZThkNCIsIm4iOiJ2a2dwdCIsImlkIjo3OTQxMDF9@logs-prod-017.grafana.net/loki/api/v1/push",
-          onConnectionError: err => { console.error(err, '**&&**') },
-        }),
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.ms(),
-            nestWinstonModuleUtilities.format.nestLike('vkgpt', {
-              colors: process.env.NODE_ENV !== 'production',
-              prettyPrint: process.env.NODE_ENV !== 'production',
-            }),
-          ),
-        }),
-      ]
+    WinstonModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
+        transports: [
+          new LokiTransport({
+            host: `https://${config.get('grafana.user')}:${config.get('grafana.key')}@${'grafana.pod'}.grafana.net/loki/api/v1/push`,
+            onConnectionError: err => { console.error(err, '**&&**') },
+          }),
+          new winston.transports.Console({
+            format: winston.format.combine(
+              winston.format.timestamp(),
+              winston.format.ms(),
+              nestWinstonModuleUtilities.format.nestLike('vkgpt', {
+                colors: process.env.NODE_ENV !== 'production',
+                prettyPrint: process.env.NODE_ENV !== 'production',
+              }),
+            ),
+          }),
+        ]      
+      }),
+      inject: [ConfigService],
+
     }),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot({ wildcard: true }), 
