@@ -42,13 +42,6 @@ export class VkService {
         this.logger.error(error);
       }
     });
-    
-    // this.logger.log('Starting polling ...');
-    // this.bot.startPolling((err) => {
-    //   if (err) {
-    //     this.logger.error(err, 'Start polling Error');
-    //   }
-    // });
   }
 
   @OnEvent('vk.replay')
