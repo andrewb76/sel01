@@ -21,7 +21,7 @@ export class VkController {
 
     // }
     console.log(
-      'IN msg ::: ', `[${cb.object.message.conversation_message_id}] - [${cb.object.message.from_id}] - [${cb.object.message.text}]`
+      'IN msg ::: ', `[${cb?.object?.message?.conversation_message_id}] - [${cb?.object?.message?.from_id}] - [${cb?.object?.message?.text}]`
     );
     const resp = this.vkService.getBotCB(cb);
     return resp;
