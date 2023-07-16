@@ -29,8 +29,8 @@ import { config } from './app.config';
             winston.format.timestamp(),
             winston.format.ms(),
             nestWinstonModuleUtilities.format.nestLike('vkgpt', {
-              colors: true,
-              prettyPrint: true,
+              colors: process.env.NODE_ENV !== 'production',
+              prettyPrint: process.env.NODE_ENV !== 'production',
             }),
           ),
         }),

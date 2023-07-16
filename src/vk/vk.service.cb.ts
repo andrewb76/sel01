@@ -55,6 +55,7 @@ export class VkService {
   
   private async processRequest(ctx) {
     const { message } = ctx;
+    this.logger.verbose(message, 'VkS::processRequest');
     if (message.age_minutes) { // Игнорируем старые запросы
       return;
     }
