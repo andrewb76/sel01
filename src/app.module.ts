@@ -22,7 +22,7 @@ import { config } from './app.config';
       transports: [
         new LokiTransport({
           host: "https://385021:eyJrIjoiOWE5OGM4MDk3YThlMjgwMWI2MzhjYWQ1MTYwYzA1NTgwZmNhZThkNCIsIm4iOiJ2a2dwdCIsImlkIjo3OTQxMDF9@logs-prod-017.grafana.net/loki/api/v1/push",
-          onConnectionError: err => { console.error('**&&**', err) },
+          onConnectionError: err => { console.error(err, '**&&**') },
         }),
         new winston.transports.Console({
           format: winston.format.combine(

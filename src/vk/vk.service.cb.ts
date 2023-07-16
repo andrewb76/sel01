@@ -50,6 +50,7 @@ export class VkService {
   }
 
   public getBotCB(cb: any) {
+    this.logger.verbose(cb, 'VkS::getBotCB start');
     return this.bot.webhookCallback(cb);
   }
   
