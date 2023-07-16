@@ -22,17 +22,17 @@ import { config } from './app.config';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
         transports: [
-          new LokiTransport({
-            host: `https://${config.get('grafana.user')}:${config.get('grafana.key')}@${config.get('grafana.pod')}.grafana.net/loki/api/v1/push`,
-            onConnectionError: err => { console.error(err, '**&&**') },
-          }),
+          // new LokiTransport({
+          //   host: `https://${config.get('grafana.user')}:${config.get('grafana.key')}@${config.get('grafana.pod')}.grafana.net/loki/api/v1/push`,
+          //   onConnectionError: err => { console.error(err, '**&&**') },
+          // }),
           new winston.transports.Console({
             format: winston.format.combine(
               winston.format.timestamp(),
               winston.format.ms(),
               nestWinstonModuleUtilities.format.nestLike('vkgpt', {
-                colors: process.env.NODE_ENV !== 'production',
-                prettyPrint: process.env.NODE_ENV !== 'production',
+                colors: false,
+                prettyPrint: false,
               }),
             ),
           }),
@@ -44,9 +44,9 @@ import { config } from './app.config';
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot({ wildcard: true }), 
     PrometheusModule.register({
-      pushgateway: {
-        url: "https://251245:eyJrIjoiMDhmOTBhYTYwZGM1MDU1NDNhZWUyNGIwZjk1ZTE2ZTk2MzJjODhiNSIsIm4iOiJ2a2dwdF9wdWIiLCJpZCI6NTY0MTkwfQ==@prometheus-prod-01-eu-west-0.grafana.net/api/prom/push",
-      },
+      // pushgateway: {
+      //   url: "https://251245:eyJrIjoiMDhmOTBhYTYwZGM1MDU1NDNhZWUyNGIwZjk1ZTE2ZTk2MzJjODhiNSIsIm4iOiJ2a2dwdF9wdWIiLCJpZCI6NTY0MTkwfQ==@prometheus-prod-01-eu-west-0.grafana.net/api/prom/push",
+      // },
     }),
     VkModule, 
     GptModule,
