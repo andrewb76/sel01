@@ -23,7 +23,7 @@ import { config } from './app.config';
       useFactory: (config: ConfigService) => ({
         transports: [
           new LokiTransport({
-            host: `https://${config.get('grafana.user')}:${config.get('grafana.key')}@${'grafana.pod'}.grafana.net/loki/api/v1/push`,
+            host: `https://${config.get('grafana.user')}:${config.get('grafana.key')}@${config.get('grafana.pod')}.grafana.net/loki/api/v1/push`,
             onConnectionError: err => { console.error(err, '**&&**') },
           }),
           new winston.transports.Console({
@@ -44,10 +44,9 @@ import { config } from './app.config';
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot({ wildcard: true }), 
     PrometheusModule.register({
-      
-      // pushgateway: {
-      //   url: "http://127.0.0.1:9091",
-      // },
+      pushgateway: {
+        url: "https://251245:eyJrIjoiMDhmOTBhYTYwZGM1MDU1NDNhZWUyNGIwZjk1ZTE2ZTk2MzJjODhiNSIsIm4iOiJ2a2dwdF9wdWIiLCJpZCI6NTY0MTkwfQ==@prometheus-prod-01-eu-west-0.grafana.net/api/prom/push",
+      },
     }),
     VkModule, 
     GptModule,
