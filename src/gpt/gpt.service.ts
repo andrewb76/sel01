@@ -4,8 +4,8 @@ import { Interval } from '@nestjs/schedule';
 import { EGptStatus } from './gpt.enums';
 import { IGptTask } from './gpt.interfaces';
 import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom, lastValueFrom, map } from 'rxjs';
-import { MetricsService } from '../metric.service';
+import { lastValueFrom, map } from 'rxjs';
+// import { MetricsService } from '../metric.service';
 import { differenceInMilliseconds } from 'date-fns';
 import { ConfigService } from '@nestjs/config';
 
@@ -19,7 +19,7 @@ export class GptService {
   constructor (
     private readonly eventEmitter: EventEmitter2,
     private readonly http: HttpService,
-    private readonly metricsService: MetricsService,
+    // private readonly metricsService: MetricsService,
     private readonly config: ConfigService,
   ) {
 
@@ -35,7 +35,7 @@ export class GptService {
       this.logger.log('Trying to get GPT response')
       this.gptStatus = EGptStatus.busy;
       const taskForProcessing = this.pool.shift();
-      this.metricsService.setPoolSize(this.pool.length);
+      // this.metricsService.setPoolSize(this.pool.length);
       this.resolveTask(taskForProcessing)
         .then((resp) => {
           this.logger.log('GPT Response:', resp);
@@ -47,15 +47,15 @@ export class GptService {
             text: `🤖 Для [${taskForProcessing.user}], ${resp.response}`,
             // message: taskForProcessing.message,
           })
-          this.metricsService.incrementRequestCounter('success');
-          this.metricsService.setRequestDelayHistogram('success', differenceInMilliseconds(new Date(), taskForProcessing.addedAt));
+          // this.metricsService.incrementRequestCounter('success');
+          // this.metricsService.setRequestDelayHistogram('success', differenceInMilliseconds(new Date(), taskForProcessing.addedAt));
         }).catch(error => {
-          this.metricsService.incrementRequestCounter('failed');
-          this.metricsService.setRequestDelayHistogram('failed', differenceInMilliseconds(new Date(), taskForProcessing.addedAt));
+          // this.metricsService.incrementRequestCounter('failed');
+          // this.metricsService.setRequestDelayHistogram('failed', differenceInMilliseconds(new Date(), taskForProcessing.addedAt));
           this.logger.warn({ error, taskForProcessing }, '[[ GPT error ]]');
           if (error.status === 429) {
             this.pool.unshift(taskForProcessing),
-            this.metricsService.setPoolSize(this.pool.length);
+            // this.metricsService.setPoolSize(this.pool.length);
 
             this.gptStatus = EGptStatus.hot;
             this.hotDelay = 3;
@@ -109,7 +109,7 @@ export class GptService {
     this.pool.push({ ...payload,
       addedAt: new Date(),
     });
-    this.metricsService.setPoolSize(this.pool.length);
+    // this.metricsService.setPoolSize(this.pool.length);
     // payload.cb(payload.owner, 'Заказ в очереди');
     // this.eventEmitter.emit('vk.replay', {
     //   to: payload.owner,
