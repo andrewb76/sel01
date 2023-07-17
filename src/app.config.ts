@@ -23,9 +23,10 @@ export const config = () => ({
 
   logging: {
     production: {
+      level: 'verbose',
       transports: [
         new LokiTransport({
-          host: `https://${process.env.LOKI_USER}:${process.env.LOKI_API_KEY}@${process.env.LOKI_POD}.grafana.net/loki/api/v1/push`,
+          host: `https://${process.env.LOKI_USER}:${process.env.LOKI_API_KEY}@${process.env.LOKI_POD}.grafana.net`,
           labels: { 
             app: 'vkgpt', 
           },
@@ -37,6 +38,7 @@ export const config = () => ({
       ]
     },
     development: {
+      level: 'verbose',
       transports: [
         new winston.transports.Console({
           format: winston.format.combine(

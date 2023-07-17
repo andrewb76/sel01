@@ -4,7 +4,7 @@ import { VkModule } from './vk/vk.module';
 import { GptModule } from './gpt/gpt.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
-import { PrometheusModule } from "@willsoto/nestjs-prometheus";
+// import { PrometheusModule } from "@willsoto/nestjs-prometheus";
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from './app.config';
 import { WinstonModule } from 'nest-winston';
