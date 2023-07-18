@@ -26,7 +26,8 @@ export const config = () => ({
       level: 'verbose',
       transports: [
         new LokiTransport({
-          host: `https://${process.env.LOKI_USER}:${process.env.LOKI_API_KEY}@${process.env.LOKI_POD}.grafana.net`,
+          host: `https://${process.env.LOKI_POD}.grafana.net`,
+          basicAuth: `${process.env.LOKI_USER}:${process.env.LOKI_API_KEY}`,
           labels: { 
             app: 'vkgpt', 
           },
