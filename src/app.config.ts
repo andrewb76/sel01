@@ -1,6 +1,19 @@
-import LokiTransport = require("winston-loki");
+
+import Transport = require('winston-transport');
+// import LokiTransport = require("winston-loki");
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import * as winston from 'winston';
+
+class MyLokiTransport extends Transport {
+  constructor(opts) {
+    super(opts);
+  }
+  log(info, callback) {
+    console.log('MyLokiTransport', info)
+ // do whatever you want with log data
+    callback();
+  }
+};
 
 export const config = () => ({
   env: process.env.NODE_ENV,
@@ -25,22 +38,24 @@ export const config = () => ({
     production: {
       level: 'verbose',
       transports: [
-        new LokiTransport({
-          host: `https://${process.env.LOKI_POD}.grafana.net`,
-          basicAuth: `${process.env.LOKI_USER}:${process.env.LOKI_API_KEY}`,
-          labels: { 
-            app: 'vkgpt', 
-          },
-          json: true,
-          format: winston.format.json(),
-          replaceTimestamp: true,
-          onConnectionError: err => { console.error(err, '**& LOKI ERROR &**') },
-        }),
+        // new LokiTransport({
+        //   host: `https://${process.env.LOKI_POD}.grafana.net`,
+        //   basicAuth: `${process.env.LOKI_USER}:${process.env.LOKI_API_KEY}`,
+        //   labels: { 
+        //     app: 'vkgpt', 
+        //   },
+        //   json: true,
+        //   format: winston.format.json(),
+        //   replaceTimestamp: true,
+        //   onConnectionError: err => { console.error(err, '**& LOKI ERROR &**') },
+        // }),
+        new MyLokiTransport({}),
       ]
     },
     development: {
       level: 'verbose',
       transports: [
+        new MyLokiTransport({}),
         new winston.transports.Console({
           format: winston.format.combine(
             winston.format.timestamp(),
